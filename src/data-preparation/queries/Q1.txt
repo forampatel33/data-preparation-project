@@ -1,0 +1,4 @@
+SELECT payment_type, AVG(tip_amount) AS avg_tip
+    FROM {table}
+    WHERE passenger_count = 1
+    GROUP BY payment_type
