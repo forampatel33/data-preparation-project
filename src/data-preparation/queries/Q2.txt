@@ -1,4 +1,0 @@
-SELECT trip_id, PULocationID, total_amount, trip_distance
-    FROM {table}
-    WHERE PULocationID IS NOT NULL
-      AND trip_distance BETWEEN 5 AND 15

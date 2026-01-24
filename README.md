@@ -1,17 +1,34 @@
-# Pandas in Python – Incremental Processing Workflow
+# Experimental Pipeline
+
+The system consists of four main stages:
+
+Data Generation (Relevance-aware)
+
+Script:
+src/data_preparation/generate_parquet_q1.py
+src/data_preparation/generate_parquet.py
 
 ## Workflow
 
-prepare_data → full_compute → simulate_changes → incremental_update → run_incremental
+Purpose:
+Generate two parquet files:
 
----
+setup_db.parquet → initial database state
+insert_batch.parquet → incremental update batch
 
-## Files and Purpose
+## Flow
 
-| File                        | Purpose / Description                                                                                                         |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `src/prepare_data.py`       | Load raw trip data, clean it, parse timestamps, join with zone metadata. Prepares dataset for aggregation.                    |
-| `src/full_compute.py`       | Compute baseline full aggregation (trip count, total revenue) per (Borough, Zone, pickup_hour). Measures full recompute time. |
-| `src/simulate_changes.py`   | Functions to simulate inserts, updates, deletes on the dataset for incremental testing.                                       |
-| `src/incremental_update.py` | Function `update_aggregates` to incrementally update aggregates based on simulated changes.                                   |
-| `src/run_incremental.py`    | Main experiment pipeline.                                                                                                     |
+Parquet (NYC Taxi)
+        ↓
+Relevance Filtering (Q1)
+        ↓
+setup_db.parquet  → Load into Postgres
+insert_batch.parquet → Incremental Insert
+        ↓
+Materialized View (MV)    Incremental View (IVM)
+        ↓                         ↓
+REFRESH MV           pgivm.refresh_immv
+        ↓                         ↓
+Compare execution time
+
+

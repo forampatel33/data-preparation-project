@@ -1,0 +1,198 @@
+
+Query benchmark results for:
+
+SELECT PULocationID,
+            COUNT(*) AS trips,
+            SUM(total_amount) AS revenue
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+     GROUP BY PULocationID
+
+MV query:  0.48 ms
+IVM query: 0.32 ms 
+
+Speedup:   1.50x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT PULocationID,
+            COUNT(*) AS trips,
+            SUM(total_amount) AS revenue
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+       AND trip_distance BETWEEN 10 AND 15
+     GROUP BY PULocationID
+
+MV query:  0.63 ms
+IVM query: 0.45 ms 
+
+Speedup:   1.40x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT PULocationID,
+            COUNT(*) AS trips,
+            SUM(total_amount) AS revenue
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+       AND tpep_pickup_datetime >= TIMESTAMP '2024-12-15'
+     GROUP BY PULocationID
+
+MV query:  0.68 ms
+IVM query: 0.51 ms 
+
+Speedup:   1.33x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT PULocationID,
+            COUNT(*) AS trips,
+            SUM(total_amount) AS revenue
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+       AND payment_type = 1
+     GROUP BY PULocationID
+
+MV query:  0.67 ms
+IVM query: 0.53 ms 
+
+Speedup:   1.27x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT PULocationID,
+            COUNT(*) AS trips,
+            SUM(total_amount) AS revenue,
+            AVG(total_amount::numeric) AS avg_total
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+     GROUP BY PULocationID
+
+MV query:  0.49 ms
+IVM query: 0.52 ms 
+
+Speedup:   0.95x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT b.PULocationID,
+            COUNT(*) AS trips,
+            SUM(b.total_amount) AS revenue
+     FROM (
+         SELECT PULocationID, total_amount
+         FROM {table}
+         WHERE PULocationID IS NOT NULL
+           AND total_amount > 10
+     ) b
+     GROUP BY b.PULocationID
+
+MV query:  0.66 ms
+IVM query: 0.52 ms 
+
+Speedup:   1.28x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+WITH base AS (
+         SELECT PULocationID, total_amount, trip_distance
+         FROM {table}
+         WHERE PULocationID IS NOT NULL
+           AND trip_distance > 2
+     )
+     SELECT PULocationID,
+            COUNT(*) AS trips,
+            SUM(total_amount) AS revenue
+     FROM base
+     GROUP BY PULocationID
+
+MV query:  0.54 ms
+IVM query: 0.48 ms 
+
+Speedup:   1.12x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT trip_id, PULocationID, total_amount
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+
+MV query:  966.33 ms
+IVM query: 787.47 ms 
+
+Speedup:   1.23x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT trip_id, PULocationID, total_amount, trip_distance
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+       AND trip_distance BETWEEN 5 AND 15
+
+MV query:  158.50 ms
+IVM query: 116.75 ms 
+
+Speedup:   1.36x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT trip_id, PULocationID, total_amount, tpep_pickup_datetime
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+       AND tpep_pickup_datetime >= TIMESTAMP '2024-12-15'
+
+MV query:  612.76 ms
+IVM query: 537.66 ms 
+
+Speedup:   1.14x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT DISTINCT PULocationID, payment_type
+     FROM {table}
+     WHERE PULocationID IS NOT NULL
+
+MV query:  0.77 ms
+IVM query: 0.62 ms 
+
+Speedup:   1.24x
+
+------------------------------------------------------------
+
+Query benchmark results for:
+
+SELECT t.trip_id, t.PULocationID, t.total_amount
+     FROM {table} t
+     WHERE t.PULocationID IS NOT NULL
+       AND EXISTS (
+           SELECT 1
+           FROM {table} t2
+           WHERE t2.PULocationID = t.PULocationID
+             AND t2.total_amount > 50
+       )
+
+MV query:  817.56 ms
+IVM query: 948.01 ms 
+
+Speedup:   0.86x
+
+------------------------------------------------------------
