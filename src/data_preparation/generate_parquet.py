@@ -7,7 +7,7 @@ pd.set_option('display.expand_frame_repr', False)
 pd.set_option('display.width', 2000)
 
 def generate_parquet(query_index, source_parquet, initial_size, batch_size, initial_relevant_rate, batch_relevant_rate,
-                     is_relevant_func):
+                     is_relevant_func, verbose=False):
     output_dir = f"q{query_index}_is{initial_size}_bs{batch_size}_ir{int(100 * initial_relevant_rate)}_br{int(100 * batch_relevant_rate)}"
 
     if not os.path.exists(output_dir):
@@ -57,18 +57,83 @@ def generate_parquet(query_index, source_parquet, initial_size, batch_size, init
     setup_db_df.to_parquet(setup_path)
     insert_batch_df.to_parquet(batch_path)
 
-    # Print Summary + preview
-    print(f"Project directory created: {output_dir}")
-    print("\n" + "=" * 80)
-    print(f"PREVIEW: SETUP DB (Size: {len(setup_db_df)})")
-    print("=" * 80)
-    print(setup_db_df.head(10))
+    # Print Summary + preview (only if verbose is True)
+    if verbose:
+        print(f"Project directory created: {output_dir}")
+        print("\n" + "=" * 80)
+        print(f"PREVIEW: SETUP DB (Size: {len(setup_db_df)})")
+        print("=" * 80)
+        print(setup_db_df.head(10))
 
-    print("\n" + "=" * 80)
-    print(f"PREVIEW: INSERT BATCH (Size: {len(insert_batch_df)})")
-    print("=" * 80)
-    print(insert_batch_df.head(10))
-    print("=" * 80 + "\n")
+        print("\n" + "=" * 80)
+        print(f"PREVIEW: INSERT BATCH (Size: {len(insert_batch_df)})")
+        print("=" * 80)
+        print(insert_batch_df.head(10))
+        print("=" * 80 + "\n")
 
-# TODO: Set the source to the file you are using
-SOURCE = "data/raw/yellow_tripdata_2025-01.parquet"
+    return output_dir
+
+
+Q1_SQL = f"""
+SELECT 
+    payment_type, 
+    AVG(tip_amount) AS avg_tip
+FROM yellow_trips
+WHERE passenger_count = 1
+GROUP BY payment_type
+"""
+
+Q2_SQL = """
+SELECT 
+    trip_id, 
+    PULocationID, 
+    total_amount, 
+    trip_distance
+FROM yellow_trips
+WHERE PULocationID IS NOT NULL
+  AND trip_distance BETWEEN 5 AND 15
+"""
+
+Q3_SQL = """
+         SELECT PULocationID, \
+                DOLocationID, \
+                DATE_TRUNC('day', tpep_pickup_datetime)           as trip_day, 
+                COUNT(*)                                          as num_trips, 
+                SUM(total_amount)                                 as gross_revenue, 
+                SUM(tip_amount)                                   as total_tips, 
+                AVG(trip_distance)                                as avg_dist, 
+                SUM(CASE WHEN payment_type = 1 THEN 1 ELSE 0 END) as credit_card_count, 
+                SUM(CASE WHEN payment_type = 2 THEN 1 ELSE 0 END) as cash_count, 
+                SUM(fare_amount + extra + mta_tax)                as base_costs_total
+         FROM yellow_trips
+         WHERE trip_distance > 5
+         AND passenger_count > 1
+         GROUP BY 1, 2, 3 \
+         """
+
+
+def q1_relevant_filter(df):
+    return (
+        (df['passenger_count'] == 1)
+    )
+
+def q2_relevant_filter(df):
+    return (
+        (df['PULocationID'].notnull()) &
+        (df['trip_distance'] >= 5) &
+        (df['trip_distance'] <= 15)
+    )
+
+def q3_relevant_filter(df):
+    return (
+        (df['trip_distance'] > 5) &
+        (df['passenger_count'] > 1)
+    )
+
+QUERY_SUITE = [
+    (Q1_SQL, q1_relevant_filter),
+    (Q2_SQL, q2_relevant_filter),
+    (Q3_SQL, q3_relevant_filter)
+]
+
+SOURCE = "/home/max/data-preparation-project/src/data/raw/yellow_tripdata_2025-05.parquet"
