@@ -1,1 +1,0 @@
-Move the downloaded yellow_tripdata_2025-05.parquet file to this folder!
