@@ -103,7 +103,11 @@ def run_benchmark(folder_path, sql_query, iterations=1, verbose=True):
             print("=" * 45 + "\n")
 
         return {
+            "avg_vm_insert_ms": avg_vm_ins * 1000,
+            "avg_vm_refresh_ms": avg_vm_ref * 1000,
             "avg_vm_total_ms": avg_vm_total * 1000,
+            "avg_ivm_insert_ms": avg_ivm_ins * 1000,
+            "avg_ivm_refresh_ms": avg_ivm_ref * 1000,
             "avg_ivm_total_ms": avg_ivm_total * 1000,
             "avg_speedup": avg_speedup
         }
@@ -112,14 +116,14 @@ def run_benchmark(folder_path, sql_query, iterations=1, verbose=True):
         conn.close()
 
 
-def run_batch(sql_query_index, initial_size, configs, iterations=3, verbose=True):
+def run_batch(sql_query_index, initial_size, configs, output_file_name, iterations=3, verbose=True):
     """
     sql_query_index: The SQL query index to test
     initial_size: Fixed integer for the initial number of rows in the db
     configs: List of tuples [(batch_size, batch_relevant_rate), ...]
     iterations: Number of runs per combination for averaging
     """
-    results_file = "benchmark_results.csv"
+    results_file = f"{output_file_name}.csv"
 
     if os.path.exists(results_file):
         os.remove(results_file)
@@ -168,8 +172,10 @@ def run_batch(sql_query_index, initial_size, configs, iterations=3, verbose=True
                 "batch_size": b_size,
                 "relevant_rate": r_rate,
                 "iterations": iterations,
-                "avg_vm_total_ms": bench_results["avg_vm_total_ms"],
-                "avg_ivm_total_ms": bench_results["avg_ivm_total_ms"],
+                "avg_vm_insert_ms": bench_results["avg_vm_insert_ms"],
+                "avg_vm_refresh_ms": bench_results["avg_vm_refresh_ms"],
+                "avg_ivm_insert_ms": bench_results["avg_ivm_insert_ms"],
+                "avg_ivm_refresh_ms": bench_results["avg_ivm_refresh_ms"],
                 "speedup": bench_results["avg_speedup"]
             }
 
@@ -194,9 +200,32 @@ def run_batch(sql_query_index, initial_size, configs, iterations=3, verbose=True
     return pd.DataFrame(results_list)
 
 if __name__ == '__main__':
+    num_iters = 3
+
     my_configs = [
          (100, 1.0),
          (1000, 1.0),
-         (10000, 1.0)
+         (10000, 1.0),
+         (100000, 1.0),
     ]
-    run_batch(3, 10000, my_configs, 1)
+
+    # Query 1 insertion test
+    run_batch(1, 100000, my_configs, "Q1-B1", num_iters)
+    # Query 2 insertion test
+    run_batch(2, 100000, my_configs, "Q2-B1", num_iters)
+    # Query 3 insertion test
+    run_batch(3, 100000, my_configs, "Q3-B1", num_iters)
+
+    my_configs = [
+        (10000, 0.0),
+        (10000, 0.25),
+        (10000, 0.75),
+        (10000, 1.0),
+    ]
+
+    # Query 1 relative insertion test
+    run_batch(1, 100000, my_configs, "Q1-B2", num_iters)
+    # Query 2 relative insertion test
+    run_batch(2, 100000, my_configs, "Q2-B2", num_iters)
+    # Query 3 relative insertion test
+    run_batch(3, 100000, my_configs, "Q3-B2", num_iters)

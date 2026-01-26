@@ -107,7 +107,6 @@ Q3_SQL = """
                 SUM(fare_amount + extra + mta_tax)                as base_costs_total
          FROM yellow_trips
          WHERE trip_distance > 5
-         AND passenger_count > 1
          GROUP BY 1, 2, 3 \
          """
 
@@ -126,8 +125,7 @@ def q2_relevant_filter(df):
 
 def q3_relevant_filter(df):
     return (
-        (df['trip_distance'] > 5) &
-        (df['passenger_count'] > 1)
+        (df['trip_distance'] > 5)
     )
 
 QUERY_SUITE = [
