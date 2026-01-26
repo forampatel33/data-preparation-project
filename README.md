@@ -33,38 +33,36 @@ Compare execution time -->
 
 ## Setup Instructions
 
-### Prerequisites: PostgreSQL and pg_ivm Extension
-
 Follow these steps to set up PostgreSQL with the Incremental View Maintenance (IVM) extension:
 
-#### 1. Install PostgreSQL and Development Tools
+### 1. Install PostgreSQL and Development Tools
 ```bash
 sudo apt update
 sudo apt install postgresql postgresql-server-dev-all build-essential git
 ```
 
-#### 2. Verify PostgreSQL Installation
+### 2. Verify PostgreSQL Installation
 ```bash
 psql --version
 ```
 
-#### 3. Download the pg_ivm Extension
+### 3. Download the pg_ivm Extension
 ```bash
 git clone https://github.com/sraoss/pg_ivm.git
 ```
 
-#### 4. Navigate to the Extension Directory
+### 4. Navigate to the Extension Directory
 ```bash
 cd pg_ivm/
 ```
 
-#### 5. Build and Install the Extension
+### 5. Build and Install the Extension
 ```bash
 make
 sudo make install
 ```
 
-#### 6. (OPTIONAL) Configure PostgreSQL Authentication
+### 6. (OPTIONAL) Configure PostgreSQL Authentication
 Edit the PostgreSQL authentication configuration file. Make sure to change `[postgres version]` to the version from the output of `psql --version`:
 ```bash
 sudo nano /etc/postgresql/[postgres version]/main/pg_hba.conf
@@ -85,7 +83,7 @@ After making changes, restart PostgreSQL:
 sudo systemctl restart postgresql
 ```
 
-#### 7. Create the Database
+### 7. Create the Database
 Open the PostgreSQL CLI:
 - If you followed step 6: `psql -U postgres`
 - If you skipped step 6: `sudo -u postgres psql`
@@ -95,7 +93,7 @@ Create the database:
 CREATE DATABASE nyc_taxi;
 ```
 
-#### 8. Create a Virtual Environment
+### 8. Create a Virtual Environment
 To avoid conflicts with already existing packages, we recommend downloading all the libraries in a virtual environment. To create one, run
 ```bash
 python3 -m venv virtualenv
@@ -105,15 +103,15 @@ To activate the environment `virtualenv`, run
 source virtualenv/bin/activate
 ``` 
 
-#### 9. Install Required Python libraries
+### 9. Install Required Python libraries
 ```bash
 pip3 install -r requirements.txt
 ```
 
-#### 10. Run the Test Script
+### 10. Run the Test Script
 ```bash
 python3 src/postgrestest.py
 ```
 
-#### 11. Download the Parquet file
+### 11. Download the Parquet file
 Download the 2025-05 NYC Taxi trip data from https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-05.parquet and move it to the `data/` directory.
