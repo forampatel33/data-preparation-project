@@ -103,13 +103,13 @@ def run_benchmark(folder_path, sql_query, iterations=1, verbose=True):
             print("=" * 45 + "\n")
 
         return {
-            "avg_vm_insert_ms": avg_vm_ins * 1000,
-            "avg_vm_refresh_ms": avg_vm_ref * 1000,
-            "avg_vm_total_ms": avg_vm_total * 1000,
-            "avg_ivm_insert_ms": avg_ivm_ins * 1000,
-            "avg_ivm_refresh_ms": avg_ivm_ref * 1000,
-            "avg_ivm_total_ms": avg_ivm_total * 1000,
-            "avg_speedup": avg_speedup
+            "avg_vm_insert_ms": round(avg_vm_ins * 1000, 2),
+            "avg_vm_refresh_ms": round(avg_vm_ref * 1000, 2),
+            "avg_vm_total_ms": round(avg_vm_total * 1000, 2),
+            "avg_ivm_insert_ms": round(avg_ivm_ins * 1000, 2),
+            "avg_ivm_refresh_ms": round(avg_ivm_ref * 1000, 2),
+            "avg_ivm_total_ms": round(avg_ivm_total * 1000, 2),
+            "avg_speedup": round(avg_speedup, 2)
         }
 
     finally:
@@ -147,7 +147,7 @@ def run_batch(sql_query_index, initial_size, configs, output_file_name, iteratio
 
         # 1. Generate the input files to the benchmark
         folder_path = gen_input.generate_parquet(
-            query_index=1,
+            query_index=sql_query_index-1,
             source_parquet=gen_input.SOURCE,
             initial_size=initial_size,
             batch_size=b_size,
@@ -203,6 +203,7 @@ if __name__ == '__main__':
     num_iters = 3
 
     my_configs = [
+         (10, 1.0),
          (100, 1.0),
          (1000, 1.0),
          (10000, 1.0),
@@ -210,22 +211,23 @@ if __name__ == '__main__':
     ]
 
     # Query 1 insertion test
-    run_batch(1, 100000, my_configs, "Q1-B1", num_iters)
+    run_batch(1, 100000, my_configs, "Q1-B1-1AGG", num_iters)
     # Query 2 insertion test
-    run_batch(2, 100000, my_configs, "Q2-B1", num_iters)
+    run_batch(2, 100000, my_configs, "Q2-B1-3AGG", num_iters)
     # Query 3 insertion test
-    run_batch(3, 100000, my_configs, "Q3-B1", num_iters)
+    run_batch(3, 100000, my_configs, "Q3-B1-5AGG", num_iters)
 
     my_configs = [
-        (10000, 0.0),
-        (10000, 0.25),
-        (10000, 0.75),
-        (10000, 1.0),
+        (100000, 0.0),
+        (100000, 0.25),
+        (100000, 0.50),
+        (100000, 0.75),
+        (100000, 1.0),
     ]
 
     # Query 1 relative insertion test
-    run_batch(1, 100000, my_configs, "Q1-B2", num_iters)
+    run_batch(1, 100000, my_configs, "Q1-B2-1AGG", num_iters)
     # Query 2 relative insertion test
-    run_batch(2, 100000, my_configs, "Q2-B2", num_iters)
+    run_batch(2, 100000, my_configs, "Q2-B2-3AGG", num_iters)
     # Query 3 relative insertion test
-    run_batch(3, 100000, my_configs, "Q3-B2", num_iters)
+    run_batch(3, 100000, my_configs, "Q3-B2-5AGG", num_iters)

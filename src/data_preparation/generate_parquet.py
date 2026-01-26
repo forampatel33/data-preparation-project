@@ -74,64 +74,52 @@ def generate_parquet(query_index, source_parquet, initial_size, batch_size, init
     return output_dir
 
 
+# Group By: Average total amount by payment_type
 Q1_SQL = f"""
 SELECT 
     payment_type, 
-    AVG(tip_amount) AS avg_tip
+    AVG(total_amount) AS avg_total_amount
 FROM yellow_trips
-WHERE passenger_count = 1
+WHERE trip_distance > 5
 GROUP BY payment_type
 """
 
-Q2_SQL = """
+# Group By: Average total amount by payment_type, VendorID, passenger_count
+Q2_SQL = f"""
 SELECT 
-    trip_id, 
-    PULocationID, 
-    total_amount, 
-    trip_distance
+    payment_type, 
+    VendorID, 
+    passenger_count,
+    AVG(total_amount) AS avg_total_amount
 FROM yellow_trips
-WHERE PULocationID IS NOT NULL
-  AND trip_distance BETWEEN 5 AND 15
+WHERE trip_distance > 5
+GROUP BY payment_type, VendorID, passenger_count
 """
 
-Q3_SQL = """
-         SELECT PULocationID, \
-                DOLocationID, \
-                DATE_TRUNC('day', tpep_pickup_datetime)           as trip_day, 
-                COUNT(*)                                          as num_trips, 
-                SUM(total_amount)                                 as gross_revenue, 
-                SUM(tip_amount)                                   as total_tips, 
-                AVG(trip_distance)                                as avg_dist, 
-                SUM(CASE WHEN payment_type = 1 THEN 1 ELSE 0 END) as credit_card_count, 
-                SUM(CASE WHEN payment_type = 2 THEN 1 ELSE 0 END) as cash_count, 
-                SUM(fare_amount + extra + mta_tax)                as base_costs_total
-         FROM yellow_trips
-         WHERE trip_distance > 5
-         GROUP BY 1, 2, 3 \
-         """
+# 5 Group By: Average total amount by payment_type, VendorID, passenger_count, PULocationID, DOLocationID
+Q3_SQL = f"""
+SELECT 
+    payment_type, 
+    VendorID, 
+    passenger_count, 
+    PULocationID, 
+    DOLocationID,
+    AVG(total_amount) AS avg_total_amount
+FROM yellow_trips
+WHERE trip_distance > 5
+GROUP BY payment_type, VendorID, passenger_count, PULocationID, DOLocationID
+"""
 
 
-def q1_relevant_filter(df):
-    return (
-        (df['passenger_count'] == 1)
-    )
-
-def q2_relevant_filter(df):
-    return (
-        (df['PULocationID'].notnull()) &
-        (df['trip_distance'] >= 5) &
-        (df['trip_distance'] <= 15)
-    )
-
-def q3_relevant_filter(df):
+def relevant_filter(df):
     return (
         (df['trip_distance'] > 5)
     )
 
 QUERY_SUITE = [
-    (Q1_SQL, q1_relevant_filter),
-    (Q2_SQL, q2_relevant_filter),
-    (Q3_SQL, q3_relevant_filter)
+    (Q1_SQL, relevant_filter),
+    (Q2_SQL, relevant_filter),
+    (Q3_SQL, relevant_filter)
 ]
 
 SOURCE = "data/yellow_tripdata_2025-05.parquet"
