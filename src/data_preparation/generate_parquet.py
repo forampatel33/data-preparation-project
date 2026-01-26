@@ -134,4 +134,4 @@ QUERY_SUITE = [
     (Q3_SQL, q3_relevant_filter)
 ]
 
-SOURCE = "/home/max/data-preparation-project/src/data/raw/yellow_tripdata_2025-05.parquet"
+SOURCE = "data/yellow_tripdata_2025-05.parquet"

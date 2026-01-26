@@ -3,15 +3,15 @@ import os
 import pandas as pd
 import psycopg
 from pathlib import Path
-from data_preparation import parque_dispatcher as parq_d
+from data_preparation import parquet_dispatcher as parq_d
 from data_preparation import generate_parquet as gen_input
 import shutil
 
 DB = dict(dbname="nyc_taxi", user="postgres", host="/var/run/postgresql")
 
 
-SETUP = Path("/home/max/data-preparation-project/src/data_preparation/q1_is100000_bs100_ir100_br100/setup_db.parquet")
-BATCH = Path("/home/max/data-preparation-project/src/data_preparation/q1_is100000_bs100_ir100_br100/insert_batch.parquet")
+SETUP = Path("src/data_preparation/q1_is100000_bs100_ir100_br100/setup_db.parquet")
+BATCH = Path("src/data_preparation/q1_is100000_bs100_ir100_br100/insert_batch.parquet")
 
 
 def create_mv(conn, sql, name="q1_mv"):
