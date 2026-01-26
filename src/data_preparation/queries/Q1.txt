@@ -1,4 +1,6 @@
-SELECT payment_type, AVG(tip_amount) AS avg_tip
-    FROM {table}
-    WHERE passenger_count = 1
-    GROUP BY payment_type
+SELECT
+    payment_type,
+    AVG(total_amount) AS avg_total_amount
+FROM yellow_trips
+WHERE trip_distance > 5
+GROUP BY payment_type

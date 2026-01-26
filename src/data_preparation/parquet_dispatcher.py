@@ -36,13 +36,13 @@ def copy_into(conn, df: pd.DataFrame, table: str):
         with cur.copy(f"COPY {table} ({', '.join(EXPECTED_COLS)}) FROM STDIN WITH (FORMAT CSV, NULL '\\N')") as copy:
             copy.write(buf.getvalue())
 
-def create_standard_mv(conn, sql, name="q1_mv"):
+def create_mv(conn, sql, name="q1_mv"):
     with conn.cursor() as cur:
         cur.execute(f"DROP MATERIALIZED VIEW IF EXISTS {name} CASCADE")
         cur.execute(f"CREATE MATERIALIZED VIEW {name} AS {sql}")
     conn.commit()
 
-def create_only_ivm(conn, sql, name="q1_ivm"):
+def create_ivm(conn, sql, name="q1_ivm"):
     with conn.cursor() as cur:
         cur.execute(f"DROP TABLE IF EXISTS {name} CASCADE")
         cur.execute("CREATE EXTENSION IF NOT EXISTS pg_ivm")

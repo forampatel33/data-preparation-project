@@ -1,4 +1,8 @@
-SELECT trip_id, PULocationID, total_amount, trip_distance
-    FROM {table}
-    WHERE PULocationID IS NOT NULL
-      AND trip_distance BETWEEN 5 AND 15
+SELECT
+    payment_type,
+    VendorID,
+    passenger_count,
+    AVG(total_amount) AS avg_total_amount
+FROM yellow_trips
+WHERE trip_distance > 5
+GROUP BY payment_type, VendorID, passenger_count
