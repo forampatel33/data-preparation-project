@@ -95,15 +95,25 @@ Create the database:
 CREATE DATABASE nyc_taxi;
 ```
 
-#### 8. Install Required Python libraries
+#### 8. Create a Virtual Environment
+To avoid conflicts with already existing packages, we recommend downloading all the libraries in a virtual environment. To create one, run
+```bash
+python3 -m venv virtualenv
+```
+To activate the environment `virtualenv`, run
+```bash
+source virtualenv/bin/activate
+``` 
+
+#### 9. Install Required Python libraries
 ```bash
 pip3 install -r requirements.txt
 ```
 
-#### 9. Run the Test Script
+#### 10. Run the Test Script
 ```bash
 python3 src/postgrestest.py
 ```
 
-
-
+#### 11. Download the Parquet file
+Download the 2025-05 NYC Taxi trip data from https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-05.parquet and move it to the `data/` directory.
