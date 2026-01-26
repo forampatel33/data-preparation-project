@@ -2,3 +2,4 @@ venv/
 src/__pycache__/
 src/data_preparation/__pycache__/
 *.csv
+data/yellow_tripdata_2025-05.parquet
