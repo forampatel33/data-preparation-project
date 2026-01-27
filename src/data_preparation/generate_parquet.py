@@ -122,4 +122,4 @@ QUERY_SUITE = [
     (Q3_SQL, relevant_filter)
 ]
 
-SOURCE = "data/raw/yellow_tripdata_2025-05.parquet"
+SOURCE = "data/yellow_tripdata_2025-05.parquet"

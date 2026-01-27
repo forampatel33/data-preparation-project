@@ -92,12 +92,23 @@ Create the database:
 ```sql
 CREATE DATABASE nyc_taxi;
 ```
+To exit the postgres console, you can press `Ctrl-Z`.
+
+### 8. Clone the data-prep repository
+Now that we have confirmed postgres is up and running, we can move on to cloning the repository.
+`cd ..` to move out of the `pg_ivm` directory, and then do
+```bash
+git clone https://github.com/forampatel33/data-preparation-project.git
+```
+After it has downloaded, move into the directory by `cd data-preparation-project/`.
 
 ### 8. Create a Virtual Environment
 To avoid conflicts with already existing packages, we recommend downloading all the libraries in a virtual environment. To create one, run
 ```bash
 python3 -m venv virtualenv
 ```
+(If venv is not downloaded, you can run `sudo apt install python[version]-venv`)
+
 To activate the environment `virtualenv`, run
 ```bash
 source virtualenv/bin/activate
@@ -112,6 +123,3 @@ pip3 install -r requirements.txt
 ```bash
 python3 src/postgrestest.py
 ```
-
-### 11. Download the Parquet file
-Download the 2025-05 NYC Taxi trip data from https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-05.parquet and move it to the `data/` directory.

@@ -1,3 +1,5 @@
+import pyarrow
+import pandas
 import psycopg
 
 conn = psycopg.connect(
