@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Batch size table</title>
+</head>
+<body>
+    <h1>Batch size table (Insertion and Refresh Time in ms)</h1>
+    <table style="border-collapse:collapse; font-family:Arial, sans-serif; font-size:13px;">
+        <thead><tr>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;"># inserted rows</th>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">10</th>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">100</th>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">1000</th>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">10000</th>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">100000</th>
+        </tr><tr>
+        <th colspan="2" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;"></th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Insert</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Refresh</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Insert</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Refresh</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Insert</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Refresh</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Insert</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Refresh</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Insert</th>
+        <th colspan="1" style="padding:4px 8px; text-align:center; border:1px solid #000; font-weight:700;">Refresh</th>
+        </tr></thead><tbody>
+        <tr>
+        <td rowspan="3" style="padding:4px 8px; text-align:left; border:1px solid #000; border-bottom:2px solid #000;">Q1</td>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; font-style:italic;">MV</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">6.08</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">31.21</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">8.23</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">31.35</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">30.65</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">31.19</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">168.93</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">34.34</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">1249.3</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">36.05</td>
+        </tr><tr>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; font-style:italic;">IVM</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">7.37</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.65</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">9.26</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.54</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">33.85</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.61</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">183.37</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.72</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">1296.52</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.65</td>
+        </tr><tr>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; border-bottom:2px solid #000;">Speedup</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">4.65</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">4.04</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">1.79</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">1.10</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">0.99</td>
+        </tr>
+        <tr>
+        <td rowspan="3" style="padding:4px 8px; text-align:left; border:1px solid #000; border-bottom:2px solid #000;">Q2</td>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; font-style:italic;">MV</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">5.89</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">27.34</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">8.62</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">29.43</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">31.41</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">29.75</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">184.66</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">29.14</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">1223.64</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">38.46</td>
+        </tr><tr>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; font-style:italic;">IVM</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">7.05</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.69</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">9.99</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.73</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">26.99</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.71</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">182.56</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.46</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">1282.74</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">0.5</td>
+        </tr><tr>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; border-bottom:2px solid #000;">Speedup</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">4.29</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">3.55</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">2.21</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">1.17</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:3px solid #000; font-weight:600;">0.98</td>
+        </tr>
+        <tr>
+        <td rowspan="3" style="padding:4px 8px; text-align:left; border:1px solid #000; border-bottom:2px solid #000;">Q3</td>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; font-style:italic;">MV</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">5.19</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">100.62</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">8.62</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">97.49</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">26.81</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">98.03</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">176.59</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">123.55</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">1232.47</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">172.14</td>
+        </tr><tr>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; font-style:italic;">IVM</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">25.44</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">2.29</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">195.23</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">2.61</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">1821.56</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">2.53</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">15266.3</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">3.55</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#bcd3ee; color:#000;">114520.93</td>
+        <td style="padding:4px 8px; text-align:right; border:1px solid #000; background:#f4b3b3; color:#000;">4.71</td>
+        </tr><tr>
+        <td rowspan="1" style="padding:4px 8px; text-align:left; border:1px solid #000; border-bottom:2px solid #000;">Speedup</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:2px solid #000; font-weight:600;">3.83</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:2px solid #000; font-weight:600;">0.54</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:2px solid #000; font-weight:600;">0.07</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:2px solid #000; font-weight:600;">0.03</td>
+        <td colspan="2" style=" text-align:center; border:1px solid #000; border-bottom:2px solid #000; font-weight:600;">0.01</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
