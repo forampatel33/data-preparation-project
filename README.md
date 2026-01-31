@@ -148,8 +148,9 @@ python3 src/postgrestest.py
 
 ### 12. Run the Benchmark Script
 
-To replicate our results from the report, run the [benchmark](src\benchmark.py) file.
+To replicate our results from the report, run the [benchmark](src/benchmark.py) file.
 
 ```bash
 python3 src/benchmark.py
 ```
+
