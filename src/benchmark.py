@@ -210,6 +210,8 @@ if __name__ == '__main__':
          (100000, 1.0),
     ]
 
+    # ------------ Experiment 1 ------------ 
+    
     # Query 1 insertion test
     run_batch(1, 100000, my_configs, "Q1-B1-1AGG", num_iters)
     # Query 2 insertion test
@@ -224,6 +226,8 @@ if __name__ == '__main__':
         (100000, 0.75),
         (100000, 1.0),
     ]
+
+    # ------------ Experiment 2 ------------
 
     # Query 1 relative insertion test
     run_batch(1, 100000, my_configs, "Q1-B2-1AGG", num_iters)
